@@ -15,6 +15,10 @@
       </div>
       <div class="item gray" v-for="item in endWeekDay">{{item}}</div>
     </div>
+    <div>
+      <label>照相机</label>
+      <input type="file" id='image' accept="image/*" capture='camera' multiple @change="changeFn" ref="inputfile">
+    </div>
   </div>
 </template>
 
@@ -36,6 +40,9 @@
       }
     },
     mounted() {
+
+      //-------------------
+
       var now = new Date();
       var year = now.getFullYear();
       var month = now.getMonth() + 1;
@@ -48,6 +55,20 @@
 
     },
     methods: {
+      changeFn(e){
+        console.log(e.target.files[0])
+        // let file=fileChoose.files[0],
+        let file=e.target.files[0];
+         let  reader=new FileReader();
+
+        reader.onLoad=()=>{
+
+          img.src=reader.result
+
+        };
+
+        reader.readAsDataURL(file)
+      },
       nextMonth() {
         if (this.month == 12) {
           this.year = this.year + 1;
